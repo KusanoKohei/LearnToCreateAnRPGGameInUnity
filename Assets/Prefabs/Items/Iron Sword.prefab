@@ -96,10 +96,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isItem: 0
   isWeapon: 1
-  isArmour: 0
+  isArmor: 0
   itemName: Iron Sword
   description: Sharp !
-  value: 25
+  value: 1
   itemSprite: {fileID: 21300078, guid: 0bc4ed27aef38a44bb72e80f9beb5326, type: 3}
   amoutToChange: 50
   affectHP: 0

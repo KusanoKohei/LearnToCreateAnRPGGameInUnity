@@ -36,4 +36,63 @@ public class Item : MonoBehaviour
     {
         
     }
+
+
+    public void Use(int charToUseOn)
+    {
+        CharStats selectedChar = GameManager.instance.playerStats[charToUseOn];
+
+        if (isItem)
+        {
+            if (affectHP)
+            {
+                selectedChar.currentHP += amoutToChange;
+
+                if(selectedChar.currentHP > selectedChar.maxHP)
+                {
+                    selectedChar.currentHP = selectedChar.maxHP;
+                }
+            }
+
+            if (affectMP)
+            {
+                selectedChar.currentMP += amoutToChange;
+
+                if (selectedChar.currentMP > selectedChar.maxMP)
+                {
+                    selectedChar.currentMP = selectedChar.maxMP;
+                }
+            }
+
+            if (affectStr)
+            {
+                selectedChar.strength += amoutToChange;
+            }
+        }
+
+        if (isWeapon)
+        {
+            if(selectedChar.equippedWpn != "")
+            {
+                GameManager.instance.AddItem(selectedChar.equippedWpn);
+            }
+
+            selectedChar.equippedWpn = itemName;
+            selectedChar.wpnPwr = weaponStrength;
+        }
+
+        if (isArmor)
+        {
+            if (selectedChar.equippedArmr != "")
+            {
+                GameManager.instance.AddItem(selectedChar.equippedArmr);
+            }
+
+            Debug.Log(itemName);
+            selectedChar.equippedArmr = itemName;
+            selectedChar.armrPwr = armorStrength;
+        }
+
+        GameManager.instance.RemoveItem(itemName);
+    }
 }
