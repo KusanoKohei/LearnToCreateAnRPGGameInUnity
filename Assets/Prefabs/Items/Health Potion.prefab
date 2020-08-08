@@ -96,7 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isItem: 1
   isWeapon: 0
-  isArmour: 0
+  isArmor: 0
   itemName: Health Potion
   description: Restores 100 HP
   value: 5

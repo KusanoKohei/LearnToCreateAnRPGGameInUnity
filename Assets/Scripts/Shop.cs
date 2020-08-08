@@ -18,6 +18,10 @@ public class Shop : MonoBehaviour
     public ItemButton[] buyItemButtons;
     public ItemButton[] sellItemButtons;
 
+    public Item selectedItem;
+    public Text buyItemName, buyItemDescription, buyItemValue;
+    public Text sellItemName, sellItemDescription, sellItemValue;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +55,8 @@ public class Shop : MonoBehaviour
 
     public void OpenBuyMenu()
     {
+        buyItemButtons[0].Press();
+
         buyMenu.SetActive(true);
         sellMenu.SetActive(false);
 
@@ -61,7 +67,6 @@ public class Shop : MonoBehaviour
             if (itemsForSale[i] != "")
             {
                 buyItemButtons[i].buttonImage.gameObject.SetActive(true);
-                Debug.Log(itemsForSale[i]);
                 buyItemButtons[i].buttonImage.sprite = GameManager.instance.GetItemDetails(itemsForSale[i]).itemSprite;
                 buyItemButtons[i].amoutText.text = "";
             }
@@ -75,9 +80,17 @@ public class Shop : MonoBehaviour
 
     public void OpenSellMenu()
     {
+        sellItemButtons[1].Press();
+
+
         buyMenu.SetActive(false);
         sellMenu.SetActive(true);
 
+        ShowSellItems();
+    }
+
+    private void ShowSellItems()
+    {
         GameManager.instance.SortItems();
 
         for (int i = 0; i < sellItemButtons.Length; i++)
@@ -96,5 +109,50 @@ public class Shop : MonoBehaviour
                 sellItemButtons[i].amoutText.text = "";
             }
         }
+    }
+
+    public void SelectBuyItem(Item buyItem)
+    {
+        selectedItem = buyItem;
+        buyItemName.text = selectedItem.itemName;
+        buyItemDescription.text = selectedItem.description;
+        buyItemValue.text = "Value: " + selectedItem.value.ToString() + "g";
+    }
+
+    public void SelectSellItem(Item sellItem)
+    {
+        selectedItem = sellItem;
+        sellItemName.text = selectedItem.itemName;
+        sellItemDescription.text = selectedItem.description;
+        sellItemValue.text = "Value: " + Mathf.FloorToInt(selectedItem.value * .5f).ToString() + "g";
+    }
+
+    public void BuyItem()
+    {
+        if (selectedItem != null)
+        {
+            if (GameManager.instance.currentGold >= selectedItem.value)
+            {
+                GameManager.instance.currentGold -= selectedItem.value;
+
+                GameManager.instance.AddItem(selectedItem.itemName);
+            }
+        }
+
+        goldText.text = GameManager.instance.currentGold.ToString() + "g";
+    }
+
+    public void SellItem()
+    {
+        if(selectedItem != null)
+        {
+            GameManager.instance.currentGold += Mathf.FloorToInt(selectedItem.value * .5f);
+
+            GameManager.instance.RemoveItem(selectedItem.itemName);
+        }
+
+        goldText.text = GameManager.instance.currentGold.ToString() + "g";
+
+        ShowSellItems();
     }
 }
