@@ -7,6 +7,7 @@ public class EssentialsLoarder : MonoBehaviour
     public GameObject UIScreen;
     public GameObject player;
     public GameObject gameMan;
+    public GameObject audioMan;
 
 
     // Start is called before the first frame update
@@ -14,6 +15,7 @@ public class EssentialsLoarder : MonoBehaviour
     {
         if(UIFade.instance == null)
         {
+            Debug.Log("through");
             UIFade.instance = Instantiate(UIScreen).GetComponent<UIFade>();
         }
 
@@ -26,6 +28,11 @@ public class EssentialsLoarder : MonoBehaviour
         if(GameManager.instance == null)
         {
             Instantiate(gameMan);
+        }
+
+        if(AudioManager.instance == null)
+        {
+            Instantiate(audioMan);
         }
         
     }

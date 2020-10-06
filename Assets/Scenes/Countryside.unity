@@ -128,6 +128,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1689830565980647104, guid: 578e4bfeb74350446b0fd824d120300f,
+        type: 3}
+      propertyPath: audioMan
+      value: 
+      objectReference: {fileID: 8723905552854927070, guid: 3c23416daaa83d04ab47e49598cc4cf1,
+        type: 3}
     - target: {fileID: 4734538462004672728, guid: 578e4bfeb74350446b0fd824d120300f,
         type: 3}
       propertyPath: m_Name
@@ -6635,6 +6641,11 @@ PrefabInstance:
       propertyPath: theMap
       value: 
       objectReference: {fileID: 749100602}
+    - target: {fileID: 30070779791582910, guid: 9da47a45507c3914fbd48c138bfe979a,
+        type: 3}
+      propertyPath: musicToPlay
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9da47a45507c3914fbd48c138bfe979a, type: 3}
 --- !u!1 &1674295907

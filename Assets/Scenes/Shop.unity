@@ -519,6 +519,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2674584015003662500, guid: 7c550784a179ebc44ad84c095ca25d6d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c550784a179ebc44ad84c095ca25d6d, type: 3}
 --- !u!1001 &822289070
@@ -534,11 +539,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1416538228, guid: a012fd70ec6dd6446a3f7dfae518b9ba, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.01
+      value: 0.54
       objectReference: {fileID: 0}
     - target: {fileID: 1416538228, guid: a012fd70ec6dd6446a3f7dfae518b9ba, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.03
+      value: 2.04
       objectReference: {fileID: 0}
     - target: {fileID: 5180921211630941864, guid: a012fd70ec6dd6446a3f7dfae518b9ba,
         type: 3}
@@ -1876,6 +1881,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6412172400066173490, guid: fb58d532d764e734da0e6724d278a7db,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6412172400066173503, guid: fb58d532d764e734da0e6724d278a7db,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2050,11 +2060,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Custom Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 30070779791582908, guid: 9da47a45507c3914fbd48c138bfe979a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 30070779791582910, guid: 9da47a45507c3914fbd48c138bfe979a,
         type: 3}
       propertyPath: theMap
       value: 
       objectReference: {fileID: 2057224019}
+    - target: {fileID: 30070779791582910, guid: 9da47a45507c3914fbd48c138bfe979a,
+        type: 3}
+      propertyPath: musicToPlay
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9da47a45507c3914fbd48c138bfe979a, type: 3}
 --- !u!1001 &1781460730
