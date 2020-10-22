@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ItemButton : MonoBehaviour
 {
     public Image buttonImage;
-    public Text amoutText;
+    public Text amountText;
     public int buttonValue;
 
 
@@ -32,7 +32,14 @@ public class ItemButton : MonoBehaviour
             }
         }
 
-        if (Shop.instance.shopMenu.activeInHierarchy)
+        if (BattleManager.instance.BattleActive)
+        {
+            if(GameManager.instance.itemsHeld[buttonValue] != "")
+            {
+                ItemMenuInBattle.instance.SelectItem(GameManager.instance.GetItemDetails(GameManager.instance.itemsHeld[buttonValue]));
+            }
+        }
+        else if (Shop.instance.shopMenu.activeInHierarchy)
         {
             if (Shop.instance.buyMenu.activeInHierarchy)
             {

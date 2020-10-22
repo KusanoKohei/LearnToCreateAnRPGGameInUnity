@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+
 
 public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
 
+    [SerializeField]
     private bool battleActive;
     public GameObject battleScene;
 
@@ -29,12 +32,26 @@ public class BattleManager : MonoBehaviour
     public DamageNumber theDamageNumber;
 
     public Text[] playerName, playerHP, playerMP;
+    public Text battleDialog;
 
     public GameObject targetMenu;
     public BattleTargetButton[] targetButtons;
 
     public GameObject magicMenu;
     public BattleMagicSelect[] magicButtons;
+
+    public BattleNotification battleNotice;
+
+    public int chanceToFlee = 35;
+
+    public GameObject itemMenuCanvas;
+    public GameObject itemWindow;
+
+    [SerializeField]
+    private Item activeItem;
+
+    public bool BattleActive { get => battleActive; set => battleActive = value; }
+
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +74,14 @@ public class BattleManager : MonoBehaviour
             {
                 if (activeBattlers[currentTurn].isPlayer)
                 {
-                    uiButtonsHolder.SetActive(true);
+                    if (ItemMenuInBattle.instance.itemMenuOpened)
+                    {
+                        uiButtonsHolder.SetActive(false);
+                    }
+                    else
+                    {
+                        uiButtonsHolder.SetActive(true);
+                    }
                 }
                 else
                 {
@@ -76,6 +100,8 @@ public class BattleManager : MonoBehaviour
 
     public void BattleStart(string[] enemiesToSpawn)
     {
+        battleDialog.transform.parent.gameObject.SetActive(false);
+
         if (!battleActive)
         {
             battleActive = true;
@@ -247,7 +273,8 @@ public class BattleManager : MonoBehaviour
         Instantiate(enemyAttackEffect, activeBattlers[currentTurn].transform.position, activeBattlers[currentTurn].transform.rotation);
 
         DealDamage(selectedTarget, movePower);
-   }
+     }
+
 
     public void DealDamage(int target, int movePower)
     {
@@ -256,8 +283,6 @@ public class BattleManager : MonoBehaviour
 
         float damageCalc = (atkPwr / defPwr) * movePower * Random.Range(.9f, 1.1f);
         int damageToGive = Mathf.RoundToInt(damageCalc);
-
-        Debug.Log(activeBattlers[currentTurn].charName + "is dealing " + damageCalc + "(" + damageToGive + ") damage to " + activeBattlers[target].charName);
 
         activeBattlers[target].currentHP -= damageToGive;
 
@@ -373,5 +398,61 @@ public class BattleManager : MonoBehaviour
                 magicButtons[i].gameObject.SetActive(false);
             }
         }
+    }
+
+    public void Flee()
+    {
+        int fleeSuccess = Random.Range(0, 100);
+
+        if(fleeSuccess < chanceToFlee)
+        {
+            // end the battle.
+            battleActive = false;
+            battleScene.SetActive(false);
+        }
+        else
+        {
+            NextTurn();
+            battleNotice.theText.text = "Couldn't escape !";
+            battleNotice.Activate();
+        }
+    }
+
+    public IEnumerator UseItemMove(Item activeItem, int target)
+    {
+        turnWaiting = false;
+
+        Vector3 prePos;
+        prePos = activeBattlers[currentTurn].transform.position;
+
+        Vector3 stepValue = new Vector3(-1.0f, 0, 0);
+        
+        int dir;
+        if (activeBattlers[currentTurn].isPlayer)
+        {
+            dir = 1;
+        }
+        else
+        {
+            dir = -1;
+        }
+
+        float intervalTime = 0.5f;
+
+        activeBattlers[currentTurn].transform.DOMove(prePos+stepValue*dir, intervalTime);
+        yield return new WaitForSeconds(intervalTime);
+
+        Instantiate(enemyAttackEffect, activeBattlers[currentTurn].transform.position, activeBattlers[currentTurn].transform.rotation);
+        battleDialog.transform.parent.gameObject.SetActive(true);
+        battleDialog.text = activeItem.itemName;
+        activeItem.UseInBattle(target);
+        yield return new WaitForSeconds(intervalTime*2);
+
+        UpdateUIStats();
+        battleDialog.transform.parent.gameObject.SetActive(false);
+        activeBattlers[currentTurn].transform.DOMove(prePos, intervalTime);
+        yield return new WaitForSeconds(intervalTime);
+
+        NextTurn();
     }
 }

@@ -16,13 +16,12 @@ public class Item : MonoBehaviour
     public Sprite itemSprite;
 
     [Header("Item Details")]
-    public int amoutToChange;
+    public int amountToChange;
     public bool affectHP, affectMP, affectStr;
 
     [Header("Weapon/Armor Details")]
     public int weaponStrength;
     public int armorStrength;
-
 
 
     // Start is called before the first frame update
@@ -46,8 +45,10 @@ public class Item : MonoBehaviour
         {
             if (affectHP)
             {
-                selectedChar.currentHP += amoutToChange;
+                Debug.Log(selectedChar.currentHP + " is target preHP");
 
+                selectedChar.currentHP += amountToChange;
+                
                 if(selectedChar.currentHP > selectedChar.maxHP)
                 {
                     selectedChar.currentHP = selectedChar.maxHP;
@@ -56,7 +57,8 @@ public class Item : MonoBehaviour
 
             if (affectMP)
             {
-                selectedChar.currentMP += amoutToChange;
+                Debug.Log("It's not for affectHP ! for affect MP");
+                selectedChar.currentMP += amountToChange;
 
                 if (selectedChar.currentMP > selectedChar.maxMP)
                 {
@@ -66,7 +68,7 @@ public class Item : MonoBehaviour
 
             if (affectStr)
             {
-                selectedChar.strength += amoutToChange;
+                selectedChar.strength += amountToChange;
             }
         }
 
@@ -91,6 +93,47 @@ public class Item : MonoBehaviour
             Debug.Log(itemName);
             selectedChar.equippedArmr = itemName;
             selectedChar.armrPwr = armorStrength;
+        }
+
+        GameManager.instance.RemoveItem(itemName);
+    }
+
+    public void UseInBattle(int target)
+    {
+        BattleChar selectedBattler = BattleManager.instance.activeBattlers[target];
+
+        if (isItem)
+        {
+            if (affectHP)
+            {
+                Debug.Log("通った");
+                // BattleManager.instance.activeBattlers[target].currentHP += amountToChange;
+                selectedBattler.currentHP += amountToChange;
+                Debug.Log("amountToChange is " + amountToChange);
+
+                if (selectedBattler.currentHP > selectedBattler.maxHP)
+                {
+                    selectedBattler.currentHP = selectedBattler.maxHP;
+                }
+
+                Debug.Log(selectedBattler.name + "'s currentHP is " + selectedBattler.currentHP);
+            }
+
+            if (affectMP)
+            {
+                Debug.Log("It's not for affectHP ! for affect MP");
+                selectedBattler.currentMP += amountToChange;
+
+                if (selectedBattler.currentMP > selectedBattler.maxMP)
+                {
+                    selectedBattler.currentMP = selectedBattler.maxMP;
+                }
+            }
+
+            if (affectStr)
+            {
+                selectedBattler.strength += amountToChange;
+            }
         }
 
         GameManager.instance.RemoveItem(itemName);

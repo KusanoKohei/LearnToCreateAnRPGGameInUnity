@@ -101,7 +101,7 @@ MonoBehaviour:
   description: Restores 100 HP
   value: 5
   itemSprite: {fileID: 21300000, guid: 0bc4ed27aef38a44bb72e80f9beb5326, type: 3}
-  amoutToChange: 100
+  amountToChange: 100
   affectHP: 1
   affectMP: 0
   affectStr: 0

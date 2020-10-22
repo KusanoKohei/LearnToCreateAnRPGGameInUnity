@@ -68,12 +68,12 @@ public class Shop : MonoBehaviour
             {
                 buyItemButtons[i].buttonImage.gameObject.SetActive(true);
                 buyItemButtons[i].buttonImage.sprite = GameManager.instance.GetItemDetails(itemsForSale[i]).itemSprite;
-                buyItemButtons[i].amoutText.text = "";
+                buyItemButtons[i].amountText.text = "";
             }
             else
             {
                 buyItemButtons[i].buttonImage.gameObject.SetActive(false);
-                buyItemButtons[i].amoutText.text = "";
+                buyItemButtons[i].amountText.text = "";
             }
         }
     }
@@ -101,12 +101,12 @@ public class Shop : MonoBehaviour
             {
                 sellItemButtons[i].buttonImage.gameObject.SetActive(true);
                 sellItemButtons[i].buttonImage.sprite = GameManager.instance.GetItemDetails(GameManager.instance.itemsHeld[i]).itemSprite;
-                sellItemButtons[i].amoutText.text = GameManager.instance.numberOfItems[i].ToString();
+                sellItemButtons[i].amountText.text = GameManager.instance.numberOfItems[i].ToString();
             }
             else
             {
                 sellItemButtons[i].buttonImage.gameObject.SetActive(false);
-                sellItemButtons[i].amoutText.text = "";
+                sellItemButtons[i].amountText.text = "";
             }
         }
     }

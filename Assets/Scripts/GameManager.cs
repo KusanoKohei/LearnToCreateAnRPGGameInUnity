@@ -150,6 +150,8 @@ public class GameManager : MonoBehaviour
 
     public void RemoveItem(string itemToRemove)
     {
+        Debug.Log("RemoveItem");
+
         bool foundItem = false;
         int itemPosition = 0;
 

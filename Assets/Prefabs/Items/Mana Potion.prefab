@@ -101,7 +101,7 @@ MonoBehaviour:
   description: Restores 50 MP
   value: 20
   itemSprite: {fileID: 21300004, guid: 0bc4ed27aef38a44bb72e80f9beb5326, type: 3}
-  amoutToChange: 50
+  amountToChange: 50
   affectHP: 0
   affectMP: 1
   affectStr: 0

@@ -36,34 +36,41 @@ public class GameMenu : MonoBehaviour
 
     public static GameMenu instance;
 
-
+    public GameObject actionPanel;
     
     // Start is called before the first frame update
     void Start()
     {
         instance = this;
+
+        actionPanel.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire2"))
+        if (!BattleManager.instance.BattleActive) 
         {
-            if (theMenu.activeInHierarchy)
+            if (Input.GetButtonDown("Fire2"))
             {
-                // theMenu.SetActive(false);
-                // GameManager.instance.gameMenuOpen = false;
+                Debug.Log("pushed");
 
-                CloseMenu();
-            }
-            else
-            {
-                theMenu.SetActive(true);
-                UpdateMainStats();
-                GameManager.instance.gameMenuOpen = true;
-            }
+                if (theMenu.activeInHierarchy)
+                {
+                    // theMenu.SetActive(false);
+                    // GameManager.instance.gameMenuOpen = false;
 
-            AudioManager.instance.PlaySFX(5);
+                    CloseMenu();
+                }
+                else
+                {
+                    theMenu.SetActive(true);
+                    UpdateMainStats();
+                    GameManager.instance.gameMenuOpen = true;
+                }
+
+                AudioManager.instance.PlaySFX(5);
+            }
         }
     }
 
@@ -184,12 +191,12 @@ public class GameMenu : MonoBehaviour
             {
                 itemButtons[i].buttonImage.gameObject.SetActive(true);
                 itemButtons[i].buttonImage.sprite = GameManager.instance.GetItemDetails(GameManager.instance.itemsHeld[i]).itemSprite;
-                itemButtons[i].amoutText.text = GameManager.instance.numberOfItems[i].ToString();
+                itemButtons[i].amountText.text = GameManager.instance.numberOfItems[i].ToString();
             }
             else
             {
                 itemButtons[i].buttonImage.gameObject.SetActive(false);
-                itemButtons[i].amoutText.text = "";
+                itemButtons[i].amountText.text = "";
             }
         }
     }
@@ -197,6 +204,8 @@ public class GameMenu : MonoBehaviour
     public void SelectItem(Item newItem)
     {
         activeItem = newItem;
+
+        actionPanel.SetActive(true); // original.
 
         if (activeItem.isItem)
         {
@@ -242,6 +251,8 @@ public class GameMenu : MonoBehaviour
 
     public void UseItem(int selectChar)
     {
+        Debug.Log(activeItem);
+        Debug.Log(selectChar);
         activeItem.Use(selectChar);
         CloseItemCharChoice();
     }
