@@ -35,8 +35,9 @@ public class Item : MonoBehaviour
     {
         
     }
+    
 
-
+    // バトルシーン以外.
     public void Use(int charToUseOn)
     {
         CharStats selectedChar = GameManager.instance.playerStats[charToUseOn];
@@ -53,6 +54,7 @@ public class Item : MonoBehaviour
                 {
                     selectedChar.currentHP = selectedChar.maxHP;
                 }
+
             }
 
             if (affectMP)
@@ -98,6 +100,7 @@ public class Item : MonoBehaviour
         GameManager.instance.RemoveItem(itemName);
     }
 
+    // 戦闘用.
     public void UseInBattle(int target)
     {
         BattleChar selectedBattler = BattleManager.instance.activeBattlers[target];
@@ -106,17 +109,15 @@ public class Item : MonoBehaviour
         {
             if (affectHP)
             {
-                Debug.Log("通った");
                 // BattleManager.instance.activeBattlers[target].currentHP += amountToChange;
                 selectedBattler.currentHP += amountToChange;
-                Debug.Log("amountToChange is " + amountToChange);
-
+                
                 if (selectedBattler.currentHP > selectedBattler.maxHP)
                 {
                     selectedBattler.currentHP = selectedBattler.maxHP;
                 }
 
-                Debug.Log(selectedBattler.name + "'s currentHP is " + selectedBattler.currentHP);
+                BattleManager.instance.ItemEffect(target, this, amountToChange);
             }
 
             if (affectMP)

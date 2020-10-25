@@ -192,12 +192,21 @@ public class BattleManager : MonoBehaviour
             if (activeBattlers[i].currentHP == 0)
             {
                 // Handle dead battler.
+                if (activeBattlers[i].isPlayer)
+                {
+                    activeBattlers[i].theSprite.sprite = activeBattlers[i].deadSprite;
+                }
+                else
+                {
+                    activeBattlers[i].EnemyFade();
+                }
             }
             else
             {
                 if (activeBattlers[i].isPlayer)
                 {
                     allPlayersDead = false;
+                    activeBattlers[i].theSprite.sprite = activeBattlers[i].aliveSprite;
                 }
                 else
                 {
@@ -356,7 +365,7 @@ public class BattleManager : MonoBehaviour
 
         for(int i=0; i < targetButtons.Length; i++)
         {
-            if(Enemies.Count > i)
+            if(Enemies.Count > i && activeBattlers[Enemies[i]].currentHP > 0)
             {
                 targetButtons[i].gameObject.SetActive(true);
 
@@ -442,17 +451,43 @@ public class BattleManager : MonoBehaviour
         activeBattlers[currentTurn].transform.DOMove(prePos+stepValue*dir, intervalTime);
         yield return new WaitForSeconds(intervalTime);
 
-        Instantiate(enemyAttackEffect, activeBattlers[currentTurn].transform.position, activeBattlers[currentTurn].transform.rotation);
+        // Instantiate(enemyAttackEffect, activeBattlers[currentTurn].transform.position, activeBattlers[currentTurn].transform.rotation);
         battleDialog.transform.parent.gameObject.SetActive(true);
         battleDialog.text = activeItem.itemName;
+        yield return new WaitForSeconds(intervalTime);
+
         activeItem.UseInBattle(target);
+        UpdateUIStats();
         yield return new WaitForSeconds(intervalTime*2);
 
-        UpdateUIStats();
         battleDialog.transform.parent.gameObject.SetActive(false);
         activeBattlers[currentTurn].transform.DOMove(prePos, intervalTime);
         yield return new WaitForSeconds(intervalTime);
 
         NextTurn();
     }
+
+    public void ItemEffect(int target, Item thisItem, int amountToChange)
+    {
+        Debug.Log(thisItem);
+        Debug.Log(thisItem.isItem);
+
+        if (thisItem.isItem)
+        {
+            if (thisItem.affectHP)
+            {
+                // 回復エフェクト.
+                Instantiate(enemyAttackEffect,
+                    activeBattlers[target].transform.position, activeBattlers[target].transform.rotation);
+
+                // 回復量の表示.
+                theDamageNumber.damageText.color = new Color(0.0f, 1.0f, 1.0f, 1.0f);
+                theDamageNumber.damageText.text = amountToChange.ToString();
+                Instantiate(theDamageNumber,
+                    activeBattlers[target].transform.position, activeBattlers[target].transform.rotation);
+
+            }
+        }
+    }
 }
+

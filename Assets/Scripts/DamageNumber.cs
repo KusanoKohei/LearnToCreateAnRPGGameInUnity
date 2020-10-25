@@ -12,6 +12,7 @@ public class DamageNumber : MonoBehaviour
 
     public float placementJitter = .5f;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +28,7 @@ public class DamageNumber : MonoBehaviour
 
     public void SetDamage(int damageAmount)
     {
+        damageText.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
         damageText.text = damageAmount.ToString();
         transform.position += new Vector3(Random.Range(-placementJitter, placementJitter), Random.Range(-placementJitter, placementJitter), 0f);
     }
